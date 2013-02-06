@@ -1,0 +1,17 @@
+{
+  "name": "boot-color",
+  "version": "0.0.1",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "bootstrap",
+    "css",
+    "color"
+  ],
+  "author": "Soroosh Izadian",
+  "license": "MIT"
+}
