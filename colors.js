@@ -1,10 +1,14 @@
-var hexreg = /#(\w\w)(\w\w)(\w\w)$/
-var rgbareg= /rgba\(([0-9]+),\s([0-9]+),\s([0-9]+),\s([0123456789\.]+)\)/
+var hexreg = /#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$|#([0-9a-f]{1})([0-9a-f]{1})([0-9a-f]{1})$/
+var rgbareg= /rgba\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0123456789\.]+)\s*\)/
 var colors = function(imp,override){
 	this.colors = {}
 	if(imp) this.import(imp);
-	if(override) this.override = override;
-	else this.override={};
+	this.override={};
+	if(override) {
+		for( var key in override) {
+			this.override[key] = parse(override[key]);
+		}
+	}
 }
 colors.prototype = {
 	import: function (arr) {
@@ -12,33 +16,36 @@ colors.prototype = {
 			this.colors[arr[i]]=parse(arr[i]);
 		};
 	},
-	differ: function (color){
-		color = parse(color);
+	differ: function (pcolor){
 		res={};
 		for (var i in this.colors) {
-			res[i]=diff(this.colors[i],color);
+			res[i]=diff(this.colors[i],pcolor);
 			res[i][3]=Math.abs(res[i][0])+Math.abs(res[i][1])+Math.abs(res[i][2]);
 		}
 		return res;
 	},
 	closest: function (color){
-		if(this.override[color]) return this.override[color];
-		if(parse(color)===null) return color;
-		var results = this.differ(color),m=255*3,best;
-		var rgba;
-		rgba=color.match(rgbareg);
+		var pcolor = parse(color);
+		if(pcolor===null) return color;
+		if(this.override[hex(pcolor)]) return like(this.override[hex(pcolor)],color);
+		var results = this.differ(pcolor),min=255*3,best;
 		for (var i in results) {
-			if(m>results[i][3]) {
-				m=results[i][3];
+			if(min>results[i][3]) {
+				min=results[i][3];
 				best=i;
 			}
 		}
-		if (rgba) best = crgba(this.colors[best],rgba[4]);
-		return best;
+		return like(this.colors[best],color);
 	}
 }
 
 //funcs
+var like = function (parsed,formatted) {
+	if(hexreg.test(formatted)) return hex(parsed);
+	var rgba=formatted.match(rgbareg);
+	if (rgba) return crgba(parsed,rgba[4]);
+	return null;
+}
 var hex = function (rgb) {
 	var b16 = function(n) { return  n<0 ? '00' : ( n>255 ? 'ff' : (n<16 ? '0'+n.toString(16) : n.toString(16))); }
 	return '#'+b16(rgb[0])+b16(rgb[1])+b16(rgb[2]);
@@ -64,7 +71,11 @@ var interpolate = function(c1,c2,steps) {
 var parse = function (color) {
 	var rgb=color.match(hexreg);
 	var rgba=color.match(rgbareg);
-	if (rgb) return [parseInt(rgb[1],16),parseInt(rgb[2],16),parseInt(rgb[3],16)];
+	if (rgb) {
+		if (rgb[1]) return [parseInt(rgb[1],16),parseInt(rgb[2],16),parseInt(rgb[3],16)];
+		if (rgb[4]) return [parseInt(rgb[4]+rgb[4],16),parseInt(rgb[5]+rgb[5],16),parseInt(rgb[6]+rgb[6],16)];
+		return null;
+	}
 	else if (rgba) return [parseInt(rgba[1],10),parseInt(rgba[2],10),parseInt(rgba[3],10)];
 	else return null;
 }

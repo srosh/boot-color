@@ -1,12 +1,8 @@
-fs = require('fs')
-// r=require('lsjs')
-// c = r.makeReplacer('./bootstrap/less',/#\w+/g,function(){return '';},['.gitignore'])
-// c.writeResultsWhenDone('./dump')
-// c.run();
-t=require('./index.js');
-t.vars('./bootstrap/less','./dump','/colors.less',
-	['.gitignore','.git','.travis.yml','tests','responsive.less','responsive-1200px-min.less','responsive-767px-max.less','responsive-768px-979px.less','responsive-navbar.less','responsive-utilities.less'],false
-	,function(){
-		q=fs.readFileSync('./dump/bootstrap.less','utf-8');
-		fs.writeFileSync('./dump/bootstrap.less',q.replace('@import "reset.less";','@import "reset.less";\n@import "colors.less";'));
-	});
+var lsjs = require('lsjs')
+	,path = './dump/tests'
+	,assets = '../../bootstrap/docs/assets'
+var cssregex=/\.\.\/\.\.\/docs\/assets\/css\/bootstrap\.css/g;
+var regex=/\.\.\/\.\.\/docs\/assets/g;
+var test = lsjs.makeReplacer(path,cssregex,'./bootstrap.css');
+test.cbs.push(lsjs.replace(regex,assets));
+return test.writeResultsWhenDone(path).run()

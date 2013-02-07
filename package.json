@@ -1,7 +1,7 @@
 {
   "name": "boot-color",
   "version": "0.0.1",
-  "description": "ERROR: No README.md file found!",
+  "description": "Extract and change color values in bootstrap less files",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,8 +10,12 @@
   "keywords": [
     "bootstrap",
     "css",
+    "less",
     "color"
   ],
+  "dependencies" : {
+    "lsjs"   :  "0.1.2"
+  },
   "author": "Soroosh Izadian",
   "license": "MIT"
 }
