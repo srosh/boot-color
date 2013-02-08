@@ -4,8 +4,8 @@ BOOTSTRAP_DIR = ./bootstrap
 BOOTSTRAP_TESTS = ${BOOTSTRAP_DIR}/less/tests
 TARGET = ${TARGET_DIR}/bootstrap.css
 TESTS = ${LESS_FILES_DIR}/tests
-TEST_LINK = ${TARGET_DIR}/tests
-TEST_ORIG_LINK = ${TARGET_DIR}/tests-orig
+TEST_LINK = ${TARGET_DIR}/solarized-tests
+TEST_ORIG_LINK = ${TARGET_DIR}/orig-tests
 
 
 clean:
@@ -21,8 +21,8 @@ test: start clone colors solarize bootstrap ${TARGET}
 	@cp ${BOOTSTRAP_TESTS}/* ${TESTS}
 	@cp ${TARGET} ${TESTS}/bootstrap.css
 	@node test.js
-	@ln -s ${BOOTSTRAP_TESTS} ${TEST_ORIG_LINK}
-	@ln -s ${TESTS} ${TEST_LINK}
+	@ln -sfn ${BOOTSTRAP_TESTS} ${TEST_ORIG_LINK}
+	@ln -sfn ${TESTS} ${TEST_LINK}
 	@echo 'you can compare the files in ${TEST_LINK} with original bootstrap css test in ${TEST_ORIG_LINK}'
 colors:
 	@node colorvars.js
