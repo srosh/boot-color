@@ -4,7 +4,7 @@
   "description": "Extract and change color values in bootstrap less files",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
   },
   "repository": "",
   "keywords": [
@@ -14,7 +14,8 @@
     "color"
   ],
   "dependencies" : {
-    "lsjs"   :  "0.1.2"
+    "lsjs"   :  "0.1.2",
+    "less"   :  "1.3.x"
   },
   "author": "Soroosh Izadian",
   "license": "MIT"

@@ -1,19 +1,28 @@
 LESS_FILES_DIR = ./dump
 TARGET_DIR = .
 BOOTSTRAP_DIR = ./bootstrap
+BOOTSTRAP_TESTS = ${BOOTSTRAP_DIR}/less/tests
 TARGET = ${TARGET_DIR}/bootstrap.css
+TESTS = ${LESS_FILES_DIR}/tests
+TEST_LINK = ${TARGET_DIR}/tests
+TEST_ORIG_LINK = ${TARGET_DIR}/tests-orig
+
 
 clean:
-	@rm -r ${LESS_FILES_DIR}/*
-super-clean:
-	@git clean
+	@rm -r ${LESS_FILES_DIR}
+	@rm ${TEST_LINK}
+	@rm ${TEST_ORIG_LINK}
+	@mkdir ${LESS_FILES_DIR}
 start:
 	npm install
 test: start clone colors solarize bootstrap ${TARGET}
 	@mkdir -p ${LESS_FILES_DIR}/tests
-	@cp ${BOOTSTRAP_DIR}/less/tests/* ${LESS_FILES_DIR}/tests
-	@cp ${TARGET} ${LESS_FILES_DIR}/tests/bootstrap.css
+	@cp ${BOOTSTRAP_TESTS}/* ${TESTS}
+	@cp ${TARGET} ${TESTS}/bootstrap.css
 	@node test.js
+	@ln -s ${BOOTSTRAP_TESTS} ${TEST_ORIG_LINK}
+	@ln -s ${TESTS} ${TEST_LINK}
+	@echo 'you can compare the files in ${TEST_LINK} with original bootstrap css test in ${TEST_ORIG_LINK}'
 colors:
 	@node colorvars.js
 solarize: ${LESS_FILES_DIR}/colors.less
