@@ -14,9 +14,10 @@ clean:
 	@rm ${TEST_ORIG_LINK}
 	@mkdir ${LESS_FILES_DIR}
 start:
-	npm install
+	@mkdir -p ${LESS_FILES_DIR}
+	@npm install
 test: start clone colors solarize bootstrap ${TARGET}
-	@mkdir -p ${LESS_FILES_DIR}/tests
+	@mkdir -p ${TESTS}
 	@cp ${BOOTSTRAP_TESTS}/* ${TESTS}
 	@cp ${TARGET} ${TESTS}/bootstrap.css
 	@node test.js
