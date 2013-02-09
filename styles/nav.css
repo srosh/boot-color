@@ -1,0 +1,18 @@
+.navbar-inner {
+  color: #fdf6e3;
+  text-shadow: 0 -1px 0 rgba(0, 43, 54, 0.25);
+  background-color: #e93c0d;
+  background-image: -moz-linear-gradient(top, #ff4816, #c82b00);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff4816), to(#c82b00));
+  background-image: -webkit-linear-gradient(top, #ff4816, #c82b00);
+  background-image: -o-linear-gradient(top, #ff4816, #c82b00);
+  background-image: linear-gradient(to bottom, #ff4816, #c82b00);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff4816', endColorstr='#ffc82b00', GradientType=0);
+  border-color: #c82b00 #c82b00 #7c1b00;
+  border-color: rgba(0, 43, 54, 0.1) rgba(0, 43, 54, 0.1) rgba(0, 43, 54, 0.25);
+  *background-color: #c82b00;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
